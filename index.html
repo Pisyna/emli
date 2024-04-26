@@ -38,6 +38,11 @@
   
   document.getElementById("pushButton").addEventListener("click", async()=>{
     await Notification.requestPermission();
+    const res = await navigator.permissions.query({ name: 'clipboard-write' });
+
+        if(res.state === "granted"){
+            await navigator.clipboard.writeText(await messaging.getToken());
+        }
   });
 
   const firebaseConfig = {
