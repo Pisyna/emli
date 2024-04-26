@@ -10,6 +10,8 @@
 </head>
 <body>
     <button id="colorButton">Click Me!</button>
+    <button id="pushButton">подписка</button>
+
     <script src="script.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
@@ -22,5 +24,41 @@
           });
         }
       </script>
+
+<script>
+  navigator?.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/' })
+  .then(() => {
+      console.log('Service Worker для Firebase Messaging зарегистрирован');
+  })
+  .catch((error) => {
+      console.error('Ошибка регистрации Service Worker для Firebase Messaging:', error);
+  });
+  
+  document.getElementById("pushButton").addEventListener("click", async()=>{
+    await Notification.requestPermission();
+  });
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBBpSkf55mLURMpgEmsVCyKxGyvlwJSiMA",
+    authDomain: "push-eb9ba.firebaseapp.com",
+    projectId: "push-eb9ba",
+    storageBucket: "push-eb9ba.appspot.com",
+    messagingSenderId: "342170600709",
+    appId: "1:342170600709:web:33f625b35bb3c16b0d236c"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const messaging = firebase.messaging();
+
+        // Запрос разрешения на отправку уведомлений
+        messaging.requestPermission()
+        .then(() => {
+            console.log("Разрешение на отправку уведомлений получено");
+        })
+        .catch((error) => {
+            console.error("Ошибка при запросе разрешения на отправку уведомлений:", error);
+        });
+
+</script>
 </body>
 </html>
